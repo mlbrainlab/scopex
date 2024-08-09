@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Admin from './components/Admin';
+import FormTemplate from './components/FormTemplate';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [selectedTemplate, setSelectedTemplate] = useState('stool-examination');
+
+    const handleTemplateChange = (e) => {
+        setSelectedTemplate(e.target.value);
+    };
+
+    return (
+        <div className="App">
+            <h1>Scopex Lab App</h1>
+            <select onChange={handleTemplateChange} value={selectedTemplate}>
+                <option value="stool-examination">Stool Examination Report</option>
+                {/* Add more options here */}
+            </select>
+
+            <FormTemplate template={selectedTemplate} />
+        </div>
+    );
 }
 
 export default App;

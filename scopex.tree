@@ -1,0 +1,24 @@
+scopex/
+│
+├── public/
+│   ├── index.html           # Main entry point for the app
+│   ├── styles.css           # (Optional) Custom CSS styles for the app
+│   └── ...                  # Other static assets (images, fonts, etc.)
+│
+├── src/
+│   ├── components/
+│   │   ├── Admin.js         # React component for the Admin Panel
+│   │   └── FormTemplate.js  # React component for dynamic form rendering
+│   │
+│   ├── App.js               # Main React App component
+│   └── index.js             # Entry point for React app
+│
+├── uploads/                 # Directory for storing uploaded images (created by multer)
+│
+├── server.js                # Node.js server file
+│
+├── package.json             # Node.js dependencies and scripts
+│
+├── .env                     # (Optional) Environment variables (e.g., MongoDB connection string)
+│
+└── README.md                # Project documentation

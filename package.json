@@ -1,6 +1,8 @@
 {
   "name": "scopex",
   "version": "0.1.0",
+  "description": "Lab Web App for handling lab reports and submissions",
+  "main": "server.js",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
