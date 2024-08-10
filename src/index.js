@@ -168,7 +168,7 @@ function App() {
 
   return (
     <div>
-      <h1>Choose a Template</h1>
+      <h1>Choose a Report Template</h1>
       <select onChange={handleSelect}>
         <option value="">Select Template</option>
         {templates.map((template, index) => (
