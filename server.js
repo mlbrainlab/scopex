@@ -1,19 +1,30 @@
 const express = require('express');
-const multer = require('multer');
-const path = require('path');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const FormSubmission = require('./models/FormSubmission');
 
 const app = express();
-const upload = multer({ dest: 'uploads/' }); // Set up file storage
 
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
+app.use(express.json());  // To parse JSON bodies
+app.use(cors());  // To handle cross-origin requests
 
-app.post('/submit-form', upload.array('images'), (req, res) => {
-    const formData = req.body;
-    const images = req.files;
-    // Save formData and images to the database (e.g., MongoDB)
-    res.send('Form submitted successfully!');
+// Mongoose connection
+mongoose.connect('mongodb://localhost:27017/scopex')
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch(err => console.log('Error connecting to MongoDB:', err));
+
+// API endpoint for form submissions
+app.post('/api/form-submit', async (req, res) => {
+    try {
+        const { templateName, formData } = req.body;
+        const submission = new FormSubmission({ templateName, formData });
+        await submission.save();
+        res.status(201).send({ message: 'Form data saved successfully' });
+    } catch (error) {
+        console.error('Error saving form data:', error);
+        res.status(500).send({ message: 'Error saving form data', error });
+    }
 });
 
-app.listen(5000, () => {
-    console.log('Server running on http://localhost:5000');
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

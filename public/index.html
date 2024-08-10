@@ -4,28 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scopex Lab App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Select Template</h2>
-        <div class="form-group">
-            <label for="template-select">Choose a Template:</label>
-            <select id="template-select">
-                <option value="stool-examination">Stool Examination Report</option>
-                <!-- Add more templates as needed -->
-            </select>
-        </div>
-        <div id="form-container">
-            <!-- Form will be loaded here based on selection -->
-        </div>
-        <div class="file-upload">
-            <label for="file-input">Upload Images:</label>
-            <input type="file" id="file-input" multiple>
-        </div>
-        <button id="submit-btn">Submit</button>
+    <div id="root">
+        <!-- React will attach to this div and render components here -->
     </div>
-
-    <script src="app.js"></script>
+    <script src="bundle.js"></script>  <!-- Ensure this points to your compiled JavaScript bundle -->
 </body>
 </html>

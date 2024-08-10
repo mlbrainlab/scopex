@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Admin from './components/Admin';
-import FormTemplate from './components/FormTemplate';
+import TemplateForm from './components/TemplateForm';
 
 function App() {
     const [selectedTemplate, setSelectedTemplate] = useState('stool-examination');
@@ -17,7 +17,7 @@ function App() {
                 {/* Add more options here */}
             </select>
 
-            <FormTemplate template={selectedTemplate} />
+            <TemplateForm template={selectedTemplate} />
         </div>
     );
 }

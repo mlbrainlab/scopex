@@ -8,7 +8,7 @@ scopex/
 ├── src/
 │   ├── components/
 │   │   ├── Admin.js         # React component for the Admin Panel
-│   │   └── FormTemplate.js  # React component for dynamic form rendering
+│   │   └── TemplateForm.js  # React component for dynamic form rendering
 │   │
 │   ├── App.js               # Main React App component
 │   └── index.js             # Entry point for React app
