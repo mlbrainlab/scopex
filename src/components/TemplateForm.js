@@ -4,12 +4,20 @@ import axios from 'axios';
 function TemplateForm({ template }) {
     const [formData, setFormData] = useState({});
 
+    // Prompt the user when they select a new template if the form is already filled
     useEffect(() => {
-        setFormData((prevData) => ({
-            ...prevData,
-            Date: new Date().toISOString().split('T')[0]
-        }));
-    }, []);
+        if (Object.keys(formData).length > 0) {
+            const userConfirmed = window.confirm("There are already filled fields. Do you want to clear the content?");
+            if (userConfirmed) {
+                setFormData({ Date: new Date().toISOString().split('T')[0] });  // Reset form data, keeping the date
+            }
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                Date: new Date().toISOString().split('T')[0]
+            }));
+        }
+    }, [template]);
 
     const handleChange = (e) => {
         setFormData({
@@ -50,6 +58,7 @@ function TemplateForm({ template }) {
                             id="name"
                             name="name"
                             placeholder="e.g., John Doe"
+                            value={formData.name || ''}
                             onChange={handleChange}
                             required
                         />
@@ -61,6 +70,7 @@ function TemplateForm({ template }) {
                             id="age"
                             name="age"
                             placeholder="e.g., 34"
+                            value={formData.age || ''}
                             onChange={handleChange}
                             required
                         />
@@ -72,6 +82,7 @@ function TemplateForm({ template }) {
                             id="lab-id"
                             name="lab-id"
                             placeholder="e.g., 12345"
+                            value={formData["lab-id"] || ''}
                             onChange={handleChange}
                             required
                         />
@@ -83,6 +94,7 @@ function TemplateForm({ template }) {
                             id="case-no"
                             name="case-no"
                             placeholder="e.g., 6789"
+                            value={formData["case-no"] || ''}
                             onChange={handleChange}
                             required
                         />
@@ -111,6 +123,7 @@ function TemplateForm({ template }) {
                             id={field.label}
                             name={field.label}
                             placeholder={getPlaceholder(field.label)}
+                            value={formData[field.label] || ''}
                             onChange={handleChange}
                             required
                         />
@@ -128,6 +141,7 @@ function TemplateForm({ template }) {
                             id={field.label}
                             name={field.label}
                             placeholder={getPlaceholder(field.label)}
+                            value={formData[field.label] || ''}
                             onChange={handleChange}
                         />
                     </div>
