@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const FormSubmissionSchema = new mongoose.Schema({
-    templateName: String,
-    formData: Object,  // Use an object to store the form data
+    templateName: { type: String, required: true },
+    formData: { type: Object, required: true },
     date: { type: Date, default: Date.now }
 });
 
