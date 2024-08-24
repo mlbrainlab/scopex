@@ -1,43 +1,45 @@
+/* Navbar Styles */
 .navbar {
-    width: 100%;  /* Make the navbar fill the entire page width */
-    background-color: #333;  /* Example background color */
-    padding: 10px 20px;  /* Add padding for spacing */
+    width: 100%; /* Full width */
+    background-color: #1c899c; /* Background color of the navbar */
+    padding: 10px 0; /* Optional: Adjust vertical padding for height */
+    position: fixed; /* Make it stay at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    font-family: 'Inter', sans-serif;
-    color: white;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+}
+
+.navbar-logo {
+    margin-left: 20px; /* Adjust left margin for logo */
+}
+
+.navbar-logo img {
+    height: 40px; /* Adjust the size of the logo */
 }
 
 .navbar-links {
-    list-style: none;
     display: flex;
-    gap: 20px;
+    list-style: none;
+    margin-right: 20px; /* Adjust right margin for links */
 }
 
 .navbar-links li {
-    display: inline;
+    margin-left: 20px; /* Spacing between the links */
 }
 
 .navbar-links a {
-    color: white;
     text-decoration: none;
-    font-weight: bold;
-    color: white;  /* Adjust link color */
-    text-decoration: none;
-    font-size: 18px;
-    padding: 8px 16px;
-    border-radius: 4px;
+    color: white; /* Link color */
+    font-size: 18px; /* Adjust font size */
+    padding: 8px 12px; /* Add padding for clickable area */
     transition: background-color 0.3s ease;
 }
 
 .navbar-links a:hover {
-    text-decoration: underline;
-    background-color: #555; 
+    background-color: rgba(255, 255, 255, 0.2); /* Change background color on hover */
+    border-radius: 5px; /* Optional: Add border radius for hover effect */
 }
-
-.navbar-logo img {
-    width: 70px;  /* Increase the logo width */
-    height: auto;  /* Maintain the aspect ratio of the logo */
-}
-
