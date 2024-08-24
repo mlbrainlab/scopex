@@ -178,20 +178,34 @@ const templates = [
 
 function MainPage() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
-  const [showOptionalFields, setShowOptionalFields] = useState(false);
+  const [viewOptionalFields, setViewOptionalFields] = useState(false);
+  const [viewRequiredFields, setViewRequiredFields] = useState(true);
+
+  const [fileName, setFileName] = useState("No File Chosen");
+
+  const handleFileChange = (e) => {
+      setFileName(e.target.files[0] ? e.target.files[0].name : "No File Chosen");
+  };
 
   const handleButtonClick = (template) => {
       setSelectedTemplate(template);
-      setShowOptionalFields(false); // Reset optional fields when selecting a new template
+      setViewOptionalFields(false);
+      setViewRequiredFields(true); // Start with the required fields
   };
 
-  const handleAddOptionalFields = () => {
-      setShowOptionalFields(true);
+  const handleViewOptionalFields = () => {
+      setViewOptionalFields(true); // Show optional fields
+      setViewRequiredFields(false);
+  };
+
+  const handleGoBack = () => {
+      setViewOptionalFields(false);
+      setViewRequiredFields(true); // Go back to required fields
   };
 
   const handleClosePopup = () => {
       setSelectedTemplate(null);
-      setShowOptionalFields(false); // Reset optional fields when closing the popup
+      setViewOptionalFields(false); // Reset everything when closing the popup
   };
 
   // useEffect Hook to handle "Esc" key to close the popup
@@ -230,27 +244,48 @@ function MainPage() {
           <div className="popup-overlay">
               <div className="popup-content">
                   <button className="close-popup" onClick={handleClosePopup}>×</button>
-                  <h2>{selectedTemplate.name}</h2>
 
-                  {/* Form Section */}
-                  <TemplateForm template={selectedTemplate} showOptionalFields={showOptionalFields} />
+                  {/* Conditional Rendering based on the current view */}
+                  {!viewOptionalFields ? (
+                      <div>
+                          <h2>{selectedTemplate.name} - Required Fields</h2>
+                          <TemplateForm template={selectedTemplate} showOptionalFields={false} showRequiredFields={true} />
+                          <button onClick={handleViewOptionalFields} className="optional-btn">
+                              Add Optional Fields
+                          </button>
+                      </div>
+                  ) : (
+                      <div>
+                          <button className="back-btn" onClick={handleGoBack}>
+                              ←
+                          </button>
+                          <h2>{selectedTemplate.name} - Optional Fields</h2>
+                          <TemplateForm template={selectedTemplate} showOptionalFields={true} showRequiredFields={false}/>
+                      </div>
+                  )}
 
-                  {/* Upload Button Row */}
+                  {/* Custom File Upload */}
                   <div className="form-group full-width-upload">
-                      <label htmlFor="file-upload">Upload File:</label>
-                      <input type="file" id="file-upload" name="file-upload" className="upload-btn" />
+                      <label htmlFor="file-upload" className="upload-btn">
+                          Upload File
+                      </label>
+                      <input
+                          type="file"
+                          id="file-upload"
+                          name="file-upload"
+                          className="file-input"
+                          onChange={handleFileChange}
+                      />
+                      <span className="file-name">{fileName}</span>
                   </div>
 
-                  {/* Optional Fields and Submit Buttons */}
+                  {/* Submit Button */}
                   <div className="form-actions">
-                      {!showOptionalFields && (
-                          <button onClick={handleAddOptionalFields} className="optional-btn">Add Optional Fields</button>
-                      )}
                       <button type="submit" className="submit-btn">Submit</button>
                   </div>
               </div>
           </div>
-      )}
+          )}
       </div>
   );
 }

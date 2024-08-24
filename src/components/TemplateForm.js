@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function TemplateForm({ template, showOptionalFields }) {
+function TemplateForm({ template, showOptionalFields, showRequiredFields }) {
     return (
         <form className="form-container">
             {/* Render required fields */}
-            {template.requiredFields.map((field, index) => (
+            {showRequiredFields && template.requiredFields.map((field, index) => (
                 <div className="form-group" key={index}>
                     <label htmlFor={field.label}>{field.label}</label>
                     <input
@@ -16,7 +16,6 @@ function TemplateForm({ template, showOptionalFields }) {
                 </div>
             ))}
 
-            {/* Conditionally render optional fields */}
             {showOptionalFields && template.optionalFields.map((field, index) => (
                 <div className="form-group" key={index}>
                     <label htmlFor={field.label}>{field.label}</label>
