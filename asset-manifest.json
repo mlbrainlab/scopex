@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/scopex/static/css/main.28f98ba3.chunk.css",
-    "main.js": "/scopex/static/js/main.a49d3a8b.chunk.js",
-    "main.js.map": "/scopex/static/js/main.a49d3a8b.chunk.js.map",
+    "main.css": "/scopex/static/css/main.07ba2d39.chunk.css",
+    "main.js": "/scopex/static/js/main.b1e1e6aa.chunk.js",
+    "main.js.map": "/scopex/static/js/main.b1e1e6aa.chunk.js.map",
     "runtime~main.js": "/scopex/static/js/runtime~main.7b89c16a.js",
     "runtime~main.js.map": "/scopex/static/js/runtime~main.7b89c16a.js.map",
     "static/js/2.8042a87e.chunk.js": "/scopex/static/js/2.8042a87e.chunk.js",
     "static/js/2.8042a87e.chunk.js.map": "/scopex/static/js/2.8042a87e.chunk.js.map",
     "index.html": "/scopex/index.html",
-    "precache-manifest.d64d84a78ed70d6590379aa4b9fed1a6.js": "/scopex/precache-manifest.d64d84a78ed70d6590379aa4b9fed1a6.js",
+    "precache-manifest.27e055d65a8c6be16c38ebcac4605c56.js": "/scopex/precache-manifest.27e055d65a8c6be16c38ebcac4605c56.js",
     "service-worker.js": "/scopex/service-worker.js",
-    "static/css/main.28f98ba3.chunk.css.map": "/scopex/static/css/main.28f98ba3.chunk.css.map"
+    "static/css/main.07ba2d39.chunk.css.map": "/scopex/static/css/main.07ba2d39.chunk.css.map"
   }
 }
