@@ -1,5 +1,4 @@
 import React from 'react';
-import './MainPage'; // Ensure the corresponding CSS is included
 
 function TemplateForm({ template, showOptionalFields }) {
     return (
