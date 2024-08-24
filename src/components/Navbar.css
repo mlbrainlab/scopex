@@ -1,0 +1,43 @@
+.navbar {
+    width: 100%;  /* Make the navbar fill the entire page width */
+    background-color: #333;  /* Example background color */
+    padding: 10px 20px;  /* Add padding for spacing */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    color: white;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-links li {
+    display: inline;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;  /* Adjust link color */
+    text-decoration: none;
+    font-size: 18px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    text-decoration: underline;
+    background-color: #555; 
+}
+
+.navbar-logo img {
+    width: 70px;  /* Increase the logo width */
+    height: auto;  /* Maintain the aspect ratio of the logo */
+}
+
