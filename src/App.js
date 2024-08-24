@@ -1,24 +1,18 @@
-import React, { useState } from 'react';
-import Admin from './components/Admin';
-import TemplateForm from './components/TemplateForm';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MainPage from './components/MainPage';
+import Navbar from './components/Navbar';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
-    const [selectedTemplate, setSelectedTemplate] = useState('stool-examination');
-
-    const handleTemplateChange = (e) => {
-        setSelectedTemplate(e.target.value);
-    };
-
     return (
-        <div className="App">
-            <h1>Scopex Lab App</h1>
-            <select onChange={handleTemplateChange} value={selectedTemplate}>
-                <option value="stool-examination">Stool Examination Report</option>
-                {/* Add more options here */}
-            </select>
-
-            <TemplateForm template={selectedTemplate} />
-        </div>
+        <Router>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<MainPage />} /> {/* Default route */}
+                <Route path="/admin" element={<AdminDashboard />} />
+            </Routes>
+        </Router>
     );
 }
 

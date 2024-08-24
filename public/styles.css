@@ -18,6 +18,17 @@ h3, h4 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.form-group {
+    width: calc(50% - 20px); /* Two columns, accounting for gap */
+    flex-grow: 1;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .section {
@@ -31,12 +42,6 @@ h3, h4 {
     margin-bottom: 10px;
     border-bottom: 2px solid #007bff;
     padding-bottom: 5px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
 }
 
 .patient-info-grid {
@@ -92,4 +97,38 @@ button:hover {
     .patient-info-grid {
         grid-template-columns: 1fr;
     }
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea {
+    width: 100%; /* Controls the width of the text fields */
+    padding: 20px; /* Controls the padding inside the text fields */
+    font-size: 16px; /* Controls the size of the text */
+    border-radius: 25px; /* Controls the rounding of the corners */
+    border: 1px solid #ccc; /* Controls the border */
+    box-sizing: border-box; /* Ensures padding is included in the width/height calculation */
+}
+
+@media (max-width: 600px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    textarea {
+        width: 100%; /* Full width on smaller screens */
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+    label {
+        font-size: 14px; /* Smaller font size on smaller screens */
+    }
+}
+
+label {
+    font-size: 20px; /* Controls the size of the label text */
+    font-weight: bold; /* Makes the label text bold */
+    color: #333; /* Sets the label text color */
+    margin-bottom: 5px; /* Adds space between the label and the input field */
+    display: block; /* Ensures the label occupies its own line */
+    font-family: 'Inter';
 }
