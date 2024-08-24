@@ -12,7 +12,7 @@ Scopex is a web application for lab technicians to fill out and submit lab repor
 1. Clone the repository
 2. Install dependencies: `npm install`
 3. Start the server: `npm start`
-4. Access the app at `http://localhost:5000`
+4. Access the app at `http://localhost:4000`
 
 ## Technologies Used
 - Node.js
