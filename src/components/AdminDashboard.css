@@ -1,0 +1,26 @@
+.admin-dashboard {
+    padding: 20px;
+}
+
+.filters {
+    margin-bottom: 20px;
+}
+
+.filters label {
+    margin-right: 10px;
+}
+
+.submissions-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.submissions-list th, .submissions-list td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.submissions-list th {
+    background-color: #f4f4f4;
+}
