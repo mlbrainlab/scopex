@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "113c534c2c67a0d26a9584511128afa1",
+    "revision": "8a8322be008254106ae17639ed7c5813",
     "url": "/scopex/index.html"
   },
   {
