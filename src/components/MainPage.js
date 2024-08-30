@@ -9,8 +9,8 @@ const templates = [
         requiredFields: [
             { label: 'Name', type: 'text' },
             { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'text' },
-            { label: 'Case No.', type: 'text' },
+            { label: 'Lab ID', type: 'number' },
+            { label: 'Case No.', type: 'number' },
             { label: 'Date', type: 'date' }
         ],
         optionalFields: [
@@ -27,8 +27,8 @@ const templates = [
         requiredFields: [
             { label: 'Name', type: 'text' },
             { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'text' },
-            { label: 'Case No.', type: 'text' },
+            { label: 'Lab ID', type: 'number' },
+            { label: 'Case No.', type: 'number' },
             { label: 'Date', type: 'date' }
         ],
         optionalFields: [
@@ -57,8 +57,8 @@ const templates = [
         requiredFields: [
             { label: 'Name', type: 'text' },
             { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'text' },
-            { label: 'Case No.', type: 'text' },
+            { label: 'Lab ID', type: 'number' },
+            { label: 'Case No.', type: 'number' },
             { label: 'Date', type: 'date' }
         ],
         optionalFields: [
@@ -85,8 +85,8 @@ const templates = [
         requiredFields: [
             { label: 'Name', type: 'text' },
             { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'text' },
-            { label: 'Case No.', type: 'text' },
+            { label: 'Lab ID', type: 'number' },
+            { label: 'Case No.', type: 'number' },
             { label: 'Date', type: 'date' }
         ],
         optionalFields: [
@@ -110,7 +110,7 @@ const templates = [
         color: '#9b59b6', // Purple        
         requiredFields: [
             { label: 'Patient Name', type: 'text' },
-            { label: 'Lab ID', type: 'text' },
+            { label: 'Lab ID', type: 'number' },
             { label: 'Date', type: 'date' }
         ],
         optionalFields: [
@@ -151,8 +151,8 @@ const templates = [
         requiredFields: [
             { label: 'Name', type: 'text' },
             { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'text' },
-            { label: 'Case No.', type: 'text' },
+            { label: 'Lab ID', type: 'number' },
+            { label: 'Case No.', type: 'number' },
             { label: 'Date', type: 'date' }
         ],
         optionalFields: [
