@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TemplateForm from './TemplateForm';
+import axios from 'axios';
 import './MainPage.css'; // Include custom styles
 
 const templates = [
@@ -180,7 +181,7 @@ function MainPage() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [viewOptionalFields, setViewOptionalFields] = useState(false);
   const [viewRequiredFields, setViewRequiredFields] = useState(true);
-
+  const [formData, setFormData] = useState({});
   const [fileName, setFileName] = useState("No File Chosen");
 
   const handleFileChange = (e) => {
@@ -191,6 +192,8 @@ function MainPage() {
       setSelectedTemplate(template);
       setViewOptionalFields(false);
       setViewRequiredFields(true); // Start with the required fields
+      setFormData({}); // Reset form data when a new template is selected
+      resetFileInput(); // Reset file input
   };
 
   const handleViewOptionalFields = () => {
@@ -208,6 +211,73 @@ function MainPage() {
       setViewOptionalFields(false); // Reset everything when closing the popup
   };
 
+  const handleInputChange = (e) => {
+      setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
+      });
+  };
+
+  const resetFileInput = () => {
+    const fileInput = document.getElementById('file-upload');
+    if (fileInput) {
+        fileInput.value = ""; // Clear the file input
+    }
+    setFileName("No File Chosen"); // Reset the file name state
+  };
+  
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      let uploadedFilePath = null;
+  
+      // Check if a file is selected and upload it
+      if (fileName !== "No File Chosen") {
+          const formData = new FormData();
+          const fileInput = document.getElementById('file-upload');
+          const selectedFile = fileInput.files[0];
+  
+          // Ensure a file is selected
+          if (selectedFile) {
+              formData.append('file', selectedFile);
+  
+              try {
+                  const uploadResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, formData, {
+                      headers: {
+                          'Content-Type': 'multipart/form-data'
+                      }
+                  });
+                  uploadedFilePath = uploadResponse.data.filePath;
+                  console.log('File uploaded:', uploadedFilePath);
+              } catch (error) {
+                  console.error('Error uploading file:', error);
+                  alert('Error uploading file');
+                  return; // Stop submission if the file upload fails
+              }
+          } else {
+              console.error('No file selected');
+              alert('Please select a file to upload');
+              return; // Stop submission if no file is selected
+          }
+      }
+  
+      // Proceed with submitting form data
+      try {
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/form-submit`, {
+              templateName: selectedTemplate.name,
+              formData: {
+                  ...formData,
+                  filePath: uploadedFilePath // Add the file path to the form data
+              }
+          });
+          console.log('Form submitted:', response.data);
+          alert('Form submitted successfully');
+          handleClosePopup(); // Close the popup after submission
+      } catch (error) {
+          console.error('Error submitting form:', error);
+          alert('Error submitting form');
+      }
+  };    
   // useEffect Hook to handle "Esc" key to close the popup
   useEffect(() => {
       const handleEscKey = (event) => {
@@ -241,50 +311,61 @@ function MainPage() {
           </div>
 
           {selectedTemplate && (
-          <div className="popup-overlay">
-              <div className="popup-content">
-                  <button className="close-popup" onClick={handleClosePopup}>×</button>
-
-                  {/* Conditional Rendering based on the current view */}
-                  {!viewOptionalFields ? (
-                      <div>
-                          <h2>{selectedTemplate.name} - Required Fields</h2>
-                          <TemplateForm template={selectedTemplate} showOptionalFields={false} showRequiredFields={true} />
-                          <button onClick={handleViewOptionalFields} className="optional-btn">
-                              Add Optional Fields
-                          </button>
-                      </div>
-                  ) : (
-                      <div>
-                          <button className="back-btn" onClick={handleGoBack}>
-                              ←
-                          </button>
-                          <h2>{selectedTemplate.name} - Optional Fields</h2>
-                          <TemplateForm template={selectedTemplate} showOptionalFields={true} showRequiredFields={false}/>
-                      </div>
-                  )}
-
-                  {/* Custom File Upload */}
-                  <div className="form-group full-width-upload">
-                      <label htmlFor="file-upload" className="upload-btn">
-                          Upload File
-                      </label>
-                      <input
-                          type="file"
-                          id="file-upload"
-                          name="file-upload"
-                          className="file-input"
-                          onChange={handleFileChange}
-                      />
-                      <span className="file-name">{fileName}</span>
-                  </div>
-
-                  {/* Submit Button */}
-                  <div className="form-actions">
-                      <button type="submit" className="submit-btn">Submit</button>
+              <div className="popup-overlay">
+                  <div className="popup-content">
+                      <button className="close-popup" onClick={handleClosePopup}>×</button>
+                      {/* Conditional Rendering based on the current view */}
+                      <form onSubmit={handleSubmit}>
+                          {!viewOptionalFields ? (
+                              <div>
+                                  <h2>{selectedTemplate.name} - Required Fields</h2>
+                                  <TemplateForm
+                                      template={selectedTemplate}
+                                      showOptionalFields={false}
+                                      showRequiredFields={true}
+                                      handleInputChange={handleInputChange}
+                                      formData={formData}
+                                  />
+                                  <button type="button" onClick={handleViewOptionalFields} className="optional-btn">
+                                      Add Optional Fields
+                                  </button>
+                              </div>
+                          ) : (
+                              <div>
+                                  <button type="button" className="back-btn" onClick={handleGoBack}>
+                                      ←
+                                  </button>
+                                  <h2>{selectedTemplate.name} - Optional Fields</h2>
+                                  <TemplateForm
+                                      template={selectedTemplate}
+                                      showOptionalFields={true}
+                                      showRequiredFields={false}
+                                      handleInputChange={handleInputChange}
+                                      formData={formData}
+                                  />
+                              </div>
+                          )}
+                          {/* Custom File Upload */}
+                          <div className="form-group full-width-upload">
+                              <label htmlFor="file-upload" className="upload-btn">
+                                  Select Files to Upload
+                              </label>
+                              <input
+                                  type="file"
+                                  id="file-upload"
+                                  name="file-upload"
+                                  className="file-input"
+                                  onChange={handleFileChange}
+                              />
+                              <span className="file-name">{fileName}</span>
+                          </div>
+                          {/* Submit Button */}
+                          <div className="form-actions">
+                              <button type="submit" className="submit-btn">Submit</button>
+                          </div>
+                      </form>
                   </div>
               </div>
-          </div>
           )}
       </div>
   );
