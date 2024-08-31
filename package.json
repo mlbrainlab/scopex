@@ -2,7 +2,7 @@
   "name": "scopex",
   "version": "0.1.0",
   "description": "Lab Web App for handling lab reports and submissions",
-  "homepage": "https://mlbrainlab.github.io/scopex/",
+  "homepage": "https://scopex-chi.vercel.app/",
   "main": "server.js",
   "private": true,
   "dependencies": {
