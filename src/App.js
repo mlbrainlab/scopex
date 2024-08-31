@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './components/MainPage';
+import TemplateForm from './components/TemplateForm';
 import Navbar from './components/Navbar';
 import AdminDashboard from './components/AdminDashboard';
 import Footer from './components/Footer';  // Import Footer
@@ -11,6 +12,7 @@ function App() {
             <Navbar />
             <Routes>
                 <Route path="/" element={<MainPage />} /> {/* Default route */}
+                <Route path="/" element={<TemplateForm />} />
                 <Route path="/admin" element={<AdminDashboard />} />
             </Routes>
             <Footer />  {/* Include Footer at the bottom */}
