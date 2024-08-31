@@ -4,16 +4,25 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const FormSubmission = require('./models/FormSubmission');
+require('dotenv').config();
+const { createClient } = require('@supabase/supabase-js');
+
+// Initialize Supabase client
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const app = express();
 
 app.use(express.json());  // To parse JSON bodies
 app.use(cors());  // To handle cross-origin requests
 
-// Mongoose connection
-mongoose.connect('mongodb://localhost:27017/scopex')
-    .then(() => console.log('MongoDB connected successfully'))
-    .catch(err => console.log('Error connecting to MongoDB:', err));
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected successfully'))
+.catch(err => console.log('Error connecting to MongoDB:', err));
 
 // Set up storage engine for file uploads
 const storage = multer.diskStorage({
