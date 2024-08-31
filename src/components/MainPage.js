@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TemplateForm from './TemplateForm';
 import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
 import './MainPage.css'; // Include custom styles
 
 const templates = [
@@ -177,12 +178,26 @@ const templates = [
     }
 ];
 
+// Toast function to show the notification
+function Toast({ message, onClose }) {
+    return (
+        <div className="toast-overlay">
+            <div className="toast-content">
+                <p>{message}</p>
+                <button onClick={onClose}>OK</button>
+            </div>
+        </div>
+    );
+}
+
 function MainPage() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [viewOptionalFields, setViewOptionalFields] = useState(false);
   const [viewRequiredFields, setViewRequiredFields] = useState(true);
   const [formData, setFormData] = useState({});
   const [fileName, setFileName] = useState("No File Chosen");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const handleFileChange = (e) => {
       setFileName(e.target.files[0] ? e.target.files[0].name : "No File Chosen");
@@ -226,58 +241,66 @@ function MainPage() {
     setFileName("No File Chosen"); // Reset the file name state
   };
   
-  const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      let uploadedFilePath = null;
-  
-      // Check if a file is selected and upload it
-      if (fileName !== "No File Chosen") {
-          const formData = new FormData();
-          const fileInput = document.getElementById('file-upload');
-          const selectedFile = fileInput.files[0];
-  
-          // Ensure a file is selected
-          if (selectedFile) {
-              formData.append('file', selectedFile);
-  
-              try {
-                  const uploadResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, formData, {
-                      headers: {
-                          'Content-Type': 'multipart/form-data'
-                      }
-                  });
-                  uploadedFilePath = uploadResponse.data.filePath;
-                  console.log('File uploaded:', uploadedFilePath);
-              } catch (error) {
-                  console.error('Error uploading file:', error);
-                  alert('Error uploading file');
-                  return; // Stop submission if the file upload fails
-              }
-          } else {
-              console.error('No file selected');
-              alert('Please select a file to upload');
-              return; // Stop submission if no file is selected
-          }
-      }
-  
-      // Proceed with submitting form data
-      try {
-          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/form-submit`, {
-              templateName: selectedTemplate.name,
-              formData: {
-                  ...formData,
-                  filePath: uploadedFilePath // Add the file path to the form data
-              }
-          });
-          console.log('Form submitted:', response.data);
-          alert('Form submitted successfully');
-          handleClosePopup(); // Close the popup after submission
-      } catch (error) {
-          console.error('Error submitting form:', error);
-          alert('Error submitting form');
-      }
-  };    
+// Handle form submission
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let uploadedFilePath = null;
+    let toastMessage = "Form submitted successfully"; // Default message
+
+    // Check if a file is selected and upload it
+    if (fileName !== "No File Chosen") {
+        const formData = new FormData();
+        const fileInput = document.getElementById('file-upload');
+        const selectedFile = fileInput.files[0];
+
+        // Ensure a file is selected
+        if (selectedFile) {
+            formData.append('file', selectedFile);
+
+            try {
+                const uploadResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                uploadedFilePath = uploadResponse.data.filePath;
+                toastMessage = "File uploaded and Form submitted successfully"; // Update message if file is uploaded
+            } catch (error) {
+                console.error('Error uploading file:', error);
+                alert('Error uploading file');
+                return; // Stop submission if the file upload fails
+            }
+        } else {
+            console.error('No file selected');
+            alert('Please select a file to upload');
+            return; // Stop submission if no file is selected
+        }
+    }
+
+    // Proceed with submitting form data
+    try {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/form-submit`, {
+            templateName: selectedTemplate.name,
+            formData: {
+                ...formData,
+                filePath: uploadedFilePath // Add the file path to the form data
+            }
+        });
+
+        // Show the toast message
+        setToastMessage(toastMessage);
+        setShowToast(true);
+
+        // Clear form data and close popup after submission
+        handleClosePopup();
+
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('Error submitting form');
+    }
+};
+
   // useEffect Hook to handle "Esc" key to close the popup
   useEffect(() => {
       const handleEscKey = (event) => {
@@ -311,7 +334,7 @@ function MainPage() {
           </div>
 
           {selectedTemplate && (
-              <div className="popup-overlay">
+              <div className={`popup-overlay ${showToast ? 'dimmed-popup' : ''}`}>
                   <div className="popup-content">
                       <button className="close-popup" onClick={handleClosePopup}>×</button>
                       {/* Conditional Rendering based on the current view */}
@@ -364,6 +387,19 @@ function MainPage() {
                               <button type="submit" className="submit-btn">Submit</button>
                           </div>
                       </form>
+                  </div>
+              </div>
+          )}
+    
+          {/* Render Toast Notification */}
+          {showToast && (
+              <div className="dialogue-overlay">
+                  <div className="dialogue-content">
+                      <p>{toastMessage}</p>
+                      <button onClick={() => {
+                          setShowToast(false);
+                          handleClosePopup(); // Close the popup when OK is pressed
+                      }}>OK</button>
                   </div>
               </div>
           )}
