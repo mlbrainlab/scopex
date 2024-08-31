@@ -5,29 +5,27 @@ const multer = require('multer');
 const path = require('path');
 const FormSubmission = require('./models/FormSubmission');
 require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
-
-// Initialize Supabase client
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 const app = express();
 
 app.use(express.json());  // To parse JSON bodies
-app.use(cors());  // To handle cross-origin requests
+app.use(cors({ origin: 'https://mlbrainlab.github.io' })); // Allow requests from your GitHub Pages site
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected successfully'))
-.catch(err => console.log('Error connecting to MongoDB:', err));
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch(err => console.log('Error connecting to MongoDB:', err));
+
+// Ensure the uploads directory exists
+const fs = require('fs');
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
 
 // Set up storage engine for file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/');  // Specify the folder where files will be saved
+        cb(null, uploadDir);  // Specify the folder where files will be saved
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));  // Rename the file to avoid conflicts
@@ -95,3 +93,5 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 4500;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = app;
