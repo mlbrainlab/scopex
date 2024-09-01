@@ -4,6 +4,9 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import './MainPage.css'; // Include custom styles
 
+// Assuming your Vercel app's base URL is stored in an environment variable
+const apiBaseUrl = process.env.REACT_APP_API_URL;
+
 const templates = [
     {
         name: 'Biochemistry Markers',
@@ -259,7 +262,7 @@ const handleSubmit = async (e) => {
             formData.append('file', selectedFile);
 
             try {
-                const uploadResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload`, formData, {
+                const uploadResponse = await axios.post(`${apiBaseUrl}/api/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -280,7 +283,7 @@ const handleSubmit = async (e) => {
 
     // Proceed with submitting form data
     try {
-        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/form-submit`, {
+        const response = await axios.post(`${apiBaseUrl}/api/form-submit`, {
             templateName: selectedTemplate.name,
             formData: {
                 ...formData,
