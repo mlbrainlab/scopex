@@ -200,6 +200,7 @@ function MainPage() {
   const [formData, setFormData] = useState({});
   const [fileName, setFileName] = useState("No File Chosen");
   const [showToast, setShowToast] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
   const handleFileChange = (e) => {
@@ -250,6 +251,15 @@ const handleSubmit = async (e) => {
 
     let uploadedFilePath = null;
     let toastMessage = "Form submitted successfully"; // Default message
+
+    // Validation: Ensure all required fields are filled
+    const missingFields = selectedTemplate.requiredFields.filter(field => !formData[field.label]);
+    if (missingFields.length > 0) {
+        toastMessage = `Please fill in the required fields: ${missingFields.map(field => field.label).join(', ')}`;
+        setToastMessage(toastMessage);
+        setShowWarning(true);
+        return;
+    }
 
     // Check if a file is selected and upload it
     if (fileName !== "No File Chosen") {
@@ -406,6 +416,18 @@ const handleSubmit = async (e) => {
                   </div>
               </div>
           )}
+          {/* Render Warning Notification */}
+          {showWarning && (
+              <div className="dialogue-overlay">
+                  <div className="dialogue-content">
+                      <p>{toastMessage}</p>
+                      <button onClick={() => {
+                          setShowWarning(false);
+                      }}>OK</button>
+                  </div>
+              </div>
+          )}
+
       </div>
   );
 }
