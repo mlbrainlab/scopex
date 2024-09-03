@@ -3,24 +3,123 @@
 }
 
 .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
 .filters label {
-    margin-right: 10px;
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.filters input,
+.filters select {
+    margin-top: 5px;
+    padding: 15px;
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Make the charts equal size */
+.chart-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-container > div {
+    flex: 1 1 48%;
+    max-width: 48%;
+}
+
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column;
+    }
+
+    .chart-container > div {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+/* Adjust submissions-list table */
+.submissions-list {
+    width: 100%;
+    margin-top: 20px;
 }
 
 .submissions-list table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed; /* Ensures columns have fixed width */
+    border: 1px solid #ddd; /* Border around the entire table */
 }
 
-.submissions-list th, .submissions-list td {
-    border: 1px solid #ccc;
+.submissions-list th, 
+.submissions-list td {
+    border: 3px solid #ccc;
+    outline: 1px solid #f0efef;
     padding: 10px;
     text-align: left;
+    word-wrap: break-word;
 }
 
 .submissions-list th {
     background-color: #f4f4f4;
+    border-bottom: 2px solid #ddd; /* Slightly thicker bottom border for the header */
+}
+
+.submissions-list th:nth-child(1),
+.submissions-list td:nth-child(1) {
+    width: 15%; /* Report Name column width */
+}
+
+.submissions-list th:nth-child(2),
+.submissions-list td:nth-child(2) {
+    width: 20%; /* Patient Name column width */
+}
+
+.submissions-list th:nth-child(3),
+.submissions-list td:nth-child(3) {
+    width: 10%; /* Age column width */
+}
+
+.submissions-list th:nth-child(4),
+.submissions-list td:nth-child(4) {
+    width: 20%; /* Submission Date column width */
+}
+
+.submissions-list th:nth-child(5),
+.submissions-list td:nth-child(5) {
+    width: 15%; /* Lab ID column width */
+}
+
+.submissions-list th:nth-child(6),
+.submissions-list td:nth-child(6) {
+    width: 20%; /* More details column width */
+}
+
+.submissions-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.submissions-list tr:hover {
+    background-color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+    .submissions-list th,
+    .submissions-list td {
+        padding: 8px;
+        font-size: 12px;
+    }
 }
