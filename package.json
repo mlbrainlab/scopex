@@ -2,7 +2,7 @@
   "name": "scopex",
   "version": "0.1.0",
   "description": "Lab Web App for handling lab reports and submissions",
-  "homepage": "https://scopex-chi.vercel.app/",
+  "homepage": "",
   "main": "server.js",
   "private": true,
   "dependencies": {
@@ -25,8 +25,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "prebuild": "node set-homepage.js",
+    "start:production": "NODE_ENV=production node server.js",
+    "start:local": "NODE_ENV=local node server.js & npm start",
+    "build:local": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "build:production": "react-scripts build",
     "start": "react-scripts start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
