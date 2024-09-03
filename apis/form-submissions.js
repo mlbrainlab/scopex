@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import FormSubmission from '../models/FormSubmission';
+const mongoose = require('mongoose');
+const FormSubmission = require('../models/FormSubmission');
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -10,7 +10,7 @@ if (!mongoose.connection.readyState) {
     });
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method === 'GET') {
         const { templateName, dateFrom, dateTo } = req.query;
         const query = {};
@@ -34,4 +34,4 @@ export default async function handler(req, res) {
         res.setHeader('Allow', ['GET']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-}
+};

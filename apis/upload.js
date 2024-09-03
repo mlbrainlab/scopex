@@ -6,9 +6,9 @@ const fs = require('fs');
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            const uploadDir = '/tmp/uploads';
+            const uploadDir = '/tmp/uploads';  // Ensure this path exists on your deployment environment
             if (!fs.existsSync(uploadDir)) {
-                fs.mkdirSync(uploadDir);
+                fs.mkdirSync(uploadDir, { recursive: true });  // Create the directory recursively if it doesn't exist
             }
             cb(null, uploadDir);
         },
@@ -18,7 +18,7 @@ const upload = multer({
     }),
 });
 
-export default function handler(req, res) {
+function handler(req, res) {
     if (req.method === 'POST') {
         upload.single('file')(req, res, (err) => {
             if (err) {
@@ -31,3 +31,5 @@ export default function handler(req, res) {
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }
+
+module.exports = handler;

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import FormSubmission from '../models/FormSubmission'; // Adjust the import based on your structure
+const mongoose = require('mongoose');
+const FormSubmission = require('../models/FormSubmission'); // Adjust the import based on your structure
 
 // Ensure MongoDB is connected
 const MONGO_URI = process.env.MONGO_URI;
@@ -11,7 +11,7 @@ if (!mongoose.connection.readyState) {
     });
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method === 'POST') {
         const { templateName, formData } = req.body;
         try {
@@ -25,4 +25,4 @@ export default async function handler(req, res) {
         res.setHeader('Allow', ['POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-}
+};
