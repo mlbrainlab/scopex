@@ -13,14 +13,14 @@
         }
       }
     ],
-    "routes": [
+    "rewrites": [
       {
-        "src": "/api/(.*)",
-        "dest": "/apis/$1.js"
+        "source": "/api/(.*)",
+        "destination": "/apis/$1.js"
       },
       {
-        "src": "/(.*)",
-        "dest": "/index.html"
+        "source": "/(.*)",
+        "destination": "/index.html"
       }
     ],
     "headers": [
@@ -41,16 +41,6 @@
             "value": "application/javascript"
           }
         ]
-      }
-    ],
-    "rewrites": [
-      {
-        "source": "/api/(.*)",
-        "destination": "/api/$1"
-      },
-      {
-        "source": "/static/(.*)",
-        "destination": "/static/$1"
       }
     ]
   }
