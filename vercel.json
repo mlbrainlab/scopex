@@ -22,6 +22,36 @@
         "src": "/(.*)",
         "dest": "/index.html"
       }
+    ],
+    "headers": [
+      {
+        "source": "/static/css/(.*)",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/css"
+          }
+        ]
+      },
+      {
+        "source": "/static/js/(.*)",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/javascript"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "/api/$1"
+      },
+      {
+        "source": "/static/(.*)",
+        "destination": "/static/$1"
+      }
     ]
   }
   
