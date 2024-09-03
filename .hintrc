@@ -8,14 +8,6 @@
     "not ios_saf <= 12.5"
   ],
   "hints": {
-    "compat-api/css": [
-      "default",
-      {
-        "ignore": [
-          "scrollbar-width",
-          "scrollbar-color"
-        ]
-      }
-    ]
+    "compat-api/css": "off"
   }
 }
