@@ -46,40 +46,30 @@ const dummyLabOrders = [
     },
 ];
 
+const templates = {
+    'Biochemistry Markers': {
         color: '#3498db',
         requiredFields: [
-            { label: 'Name', type: 'text' },
-            { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'number' },
-            { label: 'Case No.', type: 'number' },
-            { label: 'Date', type: 'date' }
+            { label: 'Alpha Glucosidase', type: 'text' },
+            { label: 'Fructose', type: 'text' }
         ],
         optionalFields: [
             { label: 'Ref. By', type: 'text' },
-            { label: 'Alpha Glucosidase', type: 'text' },
-            { label: 'Fructose', type: 'text' },
             { label: 'Zinc', type: 'text' },
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    {
-        name: 'Blood Test',
+    'Blood Test': {
         color: '#e74c3c', // Red        
         requiredFields: [
-            { label: 'Name', type: 'text' },
-            { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'number' },
-            { label: 'Case No.', type: 'number' },
-            { label: 'Date', type: 'date' }
-        ],
-        optionalFields: [
-            { label: 'Ref. By', type: 'text' },
             { label: 'Hemoglobin', type: 'text' },
             { label: 'Red blood cells', type: 'text' },
             { label: 'Hematocrit', type: 'text' },
             { label: 'MCV', type: 'text' },
             { label: 'MCH', type: 'text' },
-            { label: 'MCHC', type: 'text' },
+            { label: 'MCHC', type: 'text' }
+        ],
+        optionalFields: [
             { label: 'Platelets', type: 'text' },
             { label: 'White blood cells', type: 'text' },
             { label: 'Neutrophils', type: 'text' },
@@ -92,23 +82,17 @@ const dummyLabOrders = [
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    {
-        name: 'Bone Marrow Examination',
+    'Bone Marrow Examination': {
         color: '#2ecc71', // Green        
         requiredFields: [
-            { label: 'Name', type: 'text' },
-            { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'number' },
-            { label: 'Case No.', type: 'number' },
-            { label: 'Date', type: 'date' }
-        ],
-        optionalFields: [
-            { label: 'Ref. By', type: 'text' },
             { label: 'Site', type: 'text' },
             { label: 'Cellularity', type: 'text' },
             { label: 'Erythroblasts', type: 'text' },
             { label: 'Granulopoiesis', type: 'text' },
-            { label: 'Lymphocytes', type: 'text' },
+            { label: 'Lymphocytes', type: 'text' }
+        ],
+        optionalFields: [
+            { label: 'Ref. By', type: 'text' },
             { label: 'Blast', type: 'text' },
             { label: 'Promyelocyte', type: 'text' },
             { label: 'Myelocytes', type: 'text' },
@@ -120,23 +104,17 @@ const dummyLabOrders = [
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    {
-        name: 'Culture Sensitivity',
+    'Culture Sensitivity': {
         color: '#f39c12', // Orange        
         requiredFields: [
-            { label: 'Name', type: 'text' },
-            { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'number' },
-            { label: 'Case No.', type: 'number' },
-            { label: 'Date', type: 'date' }
-        ],
-        optionalFields: [
-            { label: 'Ref. By', type: 'text' },
             { label: 'Type of Specimen', type: 'text' },
             { label: 'Leucocytes', type: 'text' },
             { label: 'RBCs', type: 'text' },
             { label: 'Gram Stain', type: 'text' },
-            { label: 'Bacterial Shape', type: 'text' },
+            { label: 'Bacterial Shape', type: 'text' }
+        ],
+        optionalFields: [
+            { label: 'Ref. By', type: 'text' },
             { label: 'Bacterial Arrangement', type: 'text' },
             { label: 'Culture Result (MICRO-ORGANISM)', type: 'text' },
             { label: 'Antibiogrammes', type: 'text' },
@@ -146,21 +124,17 @@ const dummyLabOrders = [
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    {
-        name: 'Semen',
+    'Semen Examination': {
         color: '#9b59b6', // Purple        
         requiredFields: [
-            { label: 'Patient Name', type: 'text' },
-            { label: 'Lab ID', type: 'number' },
-            { label: 'Date', type: 'date' }
-        ],
-        optionalFields: [
             { label: 'Abstinence', type: 'text' },
             { label: 'Collection', type: 'text' },
             { label: 'Volume', type: 'text' },
             { label: 'Color', type: 'text' },
             { label: 'Oder', type: 'text' },
-            { label: 'PH', type: 'text' },
+            { label: 'PH', type: 'text' }
+        ],
+        optionalFields: [
             { label: 'Viscosity', type: 'text' },
             { label: 'Liquefaction Time', type: 'text' },
             { label: 'Liquefaction State', type: 'text' },
@@ -186,23 +160,17 @@ const dummyLabOrders = [
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    {
-        name: 'Stool Examination',
+    'Stool Examination': {
         color: '#34495e', // Dark Blue        
         requiredFields: [
-            { label: 'Name', type: 'text' },
-            { label: 'Age', type: 'number' },
-            { label: 'Lab ID', type: 'number' },
-            { label: 'Case No.', type: 'number' },
-            { label: 'Date', type: 'date' }
-        ],
-        optionalFields: [
-            { label: 'Ref. By', type: 'text' },
             { label: 'Color', type: 'text' },
             { label: 'Consistency', type: 'text' },
             { label: 'Blood', type: 'text' },
             { label: 'Mucus', type: 'text' },
-            { label: 'PH', type: 'text' },
+            { label: 'PH', type: 'text' }
+        ],
+        optionalFields: [
+            { label: 'Ref. By', type: 'text' },
             { label: 'Red blood cells', type: 'text' },
             { label: 'Pus Cells', type: 'text' },
             { label: 'Cysts', type: 'text' },
@@ -215,7 +183,7 @@ const dummyLabOrders = [
             { label: 'Comment', type: 'textarea' }
         ]
     }
-];
+};
 
 // Toast function to show the notification
 function Toast({ message, onClose }) {
@@ -344,25 +312,27 @@ const handleSubmit = async (e) => {
         // Clear form data and close popup after submission
         handleClosePopup();
 
-    } catch (error) {
-        console.error('Error submitting form:', error);
-        alert('Error submitting form');
-    }
-};
-
-  // useEffect Hook to handle "Esc" key to close the popup
+  // useEffect Hook to handle "Esc" & Mouse-click out of popup key to close the popup
   useEffect(() => {
       const handleEscKey = (event) => {
           if (event.key === 'Escape') {
               handleClosePopup();
           }
       };
-
+   
+      const handleClickOutside = (event) => {
+          const popupContent = document.querySelector('.popup-content');
+          if (popupContent && !popupContent.contains(event.target)) {
+              handleClosePopup();
+          }
+      };
+   
       window.addEventListener('keydown', handleEscKey);
-
-      // Cleanup the event listener when the component is unmounted
+      window.addEventListener('mousedown', handleClickOutside);
+   
       return () => {
           window.removeEventListener('keydown', handleEscKey);
+          window.removeEventListener('mousedown', handleClickOutside);
       };
   }, []);
 
