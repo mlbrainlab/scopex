@@ -11,7 +11,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import './AdminDashboard.css';
+import './Dashboard.css';
 
 ChartJS.register(
     CategoryScale,
@@ -32,7 +32,7 @@ const knownTemplates = [
     "Stool Examination"
 ];
 
-function AdminDashboard() {
+function Dashboard() {
     const [submissions, setSubmissions] = useState([]);
     const [filteredSubmissions, setFilteredSubmissions] = useState([]);
     const [templateName, setTemplateName] = useState('');
@@ -257,4 +257,4 @@ function AdminDashboard() {
     );
 }
 
-export default AdminDashboard;
+export default Dashboard;
