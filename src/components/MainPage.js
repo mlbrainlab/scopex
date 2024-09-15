@@ -7,47 +7,9 @@ import './MainPage.css'; // Include custom styles
 // Assuming your Vercel app's base URL is stored in an environment variable
 const apiBaseUrl = process.env.REACT_APP_API_URL;
 
-const dummyLabOrders = [
+const templates = [
     {
-        patientName: 'John Doe',
-        labID: '12345',
-        caseID: '98765',
-        labTest: 'Blood Test'
-    },
-    {
-        patientName: 'Jane Smith',
-        labID: '67890',
-        caseID: '65432',
-        labTest: 'Semen Examination'
-    },
-    {
-        patientName: 'John Doe',
-        labID: '12345',
-        caseID: '96533',
-        labTest: 'Biochemistry Markers'
-    },
-    {
-        patientName: 'Kyle Walker',
-        labID: '67890',
-        caseID: '34221',
-        labTest: 'Bone Marrow Examination'
-    },
-    {
-        patientName: 'Truffle Games',
-        labID: '12345',
-        caseID: '42355',
-        labTest: 'Culture Sensitivity'
-    },
-    {
-        patientName: 'Arnold Vinod',
-        labID: '67890',
-        caseID: '11433',
-        labTest: 'Stool Examination'
-    },
-];
-
-const templates = {
-    'Biochemistry Markers': {
+        name: 'Biochemistry Markers',
         color: '#3498db',
         requiredFields: [
             { label: 'Alpha Glucosidase', type: 'text' },
@@ -59,7 +21,8 @@ const templates = {
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    'Blood Test': {
+    {
+        name: 'Blood Test',
         color: '#e74c3c', // Red        
         requiredFields: [
             { label: 'Hemoglobin', type: 'text' },
@@ -82,7 +45,8 @@ const templates = {
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    'Bone Marrow Examination': {
+    {
+        name: 'Bone Marrow Examination',
         color: '#2ecc71', // Green        
         requiredFields: [
             { label: 'Site', type: 'text' },
@@ -104,7 +68,8 @@ const templates = {
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    'Culture Sensitivity': {
+    {
+        name: 'Culture Sensitivity',
         color: '#f39c12', // Orange        
         requiredFields: [
             { label: 'Type of Specimen', type: 'text' },
@@ -124,7 +89,8 @@ const templates = {
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    'Semen Examination': {
+    {
+        name: 'Semen Examination',
         color: '#9b59b6', // Purple        
         requiredFields: [
             { label: 'Abstinence', type: 'text' },
@@ -160,7 +126,8 @@ const templates = {
             { label: 'Comment', type: 'textarea' }
         ]
     },
-    'Stool Examination': {
+    {
+        name: 'Stool Examination',
         color: '#34495e', // Dark Blue        
         requiredFields: [
             { label: 'Color', type: 'text' },
@@ -183,7 +150,7 @@ const templates = {
             { label: 'Comment', type: 'textarea' }
         ]
     }
-};
+];
 
 // Toast function to show the notification
 function Toast({ message, onClose }) {
@@ -199,6 +166,7 @@ function Toast({ message, onClose }) {
 
 function MainPage() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null); // Added for lab orders
   const [viewOptionalFields, setViewOptionalFields] = useState(false);
   const [viewRequiredFields, setViewRequiredFields] = useState(true);
   const [formData, setFormData] = useState({});
@@ -207,21 +175,46 @@ function MainPage() {
   const [showWarning, setShowWarning] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
+  // Dummy lab orders for testing purposes
+  const dummyLabOrders = [
+      { patientName: 'John Doe', labID: '12345', caseID: '98765', labTest: 'Blood Test', date: '12/10/2024' },
+      { patientName: 'Jane Smith', labID: '67890', caseID: '65432', labTest: 'Semen Examination', date: '12/10/2024' },
+      { patientName: 'John Doe', labID: '12345', caseID: '96533', labTest: 'Biochemistry Markers', date: '12/10/2024' },
+      { patientName: 'Kyle Walker', labID: '67890', caseID: '34221', labTest: 'Bone Marrow Examination', date: '25/08/2024' },
+      { patientName: 'Truffle Games', labID: '12345', caseID: '42355', labTest: 'Culture Sensitivity', date: '07/08/2024' },
+      { patientName: 'Arnold Vinod', labID: '67890', caseID: '11433', labTest: 'Stool Examination', date: '15/09/2024' },
+  ];
+
+  // Ensure templates is an array for finding items
+  const templatesArray = Array.isArray(templates) ? templates : Object.values(templates);
+
+  // Helper function to find template by name
+  const getTemplateByName = (labTestName) => {
+    return templates.find(template => template.name === labTestName) || null;
+  };
+
   const handleFileChange = (e) => {
       setFileName(e.target.files[0] ? e.target.files[0].name : "No File Chosen");
   };
 
-  const handleButtonClick = (template) => {
-      setSelectedTemplate(template);
+  const handleOrderClick = (order) => {
+      const template = getTemplateByName(order.labTest);  // Get the template once
+      setSelectedOrder(order);
+      setSelectedTemplate(template);  // Automatically set template based on lab order
       setViewOptionalFields(false);
-      setViewRequiredFields(true); // Start with the required fields
-      setFormData({}); // Reset form data when a new template is selected
+      setViewRequiredFields(true); 
+      setFormData({}); // Reset form data when selecting a new order
       resetFileInput(); // Reset file input
   };
 
   const handleViewOptionalFields = () => {
       setViewOptionalFields(true); // Show optional fields
       setViewRequiredFields(false);
+  };
+
+  const handleViewRequiredFields = () => {
+    setViewOptionalFields(false); // Show optional fields
+    setViewRequiredFields(true);
   };
 
   const handleGoBack = () => {
@@ -231,7 +224,9 @@ function MainPage() {
 
   const handleClosePopup = () => {
       setSelectedTemplate(null);
+      setSelectedOrder(null); // Reset order on closing
       setViewOptionalFields(false); // Reset everything when closing the popup
+      setViewRequiredFields(false);
   };
 
   const handleInputChange = (e) => {
@@ -249,69 +244,72 @@ function MainPage() {
     setFileName("No File Chosen"); // Reset the file name state
   };
   
-// Handle form submission
-const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+      e.preventDefault();
 
-    let uploadedFilePath = null;
-    let toastMessage = "Form submitted successfully"; // Default message
+      let uploadedFilePath = null;
+      let toastMessage = "Form submitted successfully"; // Default message
 
-    // Validation: Ensure all required fields are filled
-    const missingFields = selectedTemplate.requiredFields.filter(field => !formData[field.label]);
-    if (missingFields.length > 0) {
-        toastMessage = `Please fill in the required fields: ${missingFields.map(field => field.label).join(', ')}`;
-        setToastMessage(toastMessage);
-        setShowWarning(true);
-        return;
-    }
+      const selectedTemplate = getTemplateByName(selectedOrder.labTest); // Ensure template is selected by lab order
 
-    // Check if a file is selected and upload it
-    if (fileName !== "No File Chosen") {
-        const formData = new FormData();
-        const fileInput = document.getElementById('file-upload');
-        const selectedFile = fileInput.files[0];
+      // Validation: Ensure all required fields are filled
+      const missingFields = selectedTemplate.requiredFields.filter(field => !formData[field.label]);
+      if (missingFields.length > 0) {
+          toastMessage = `Please fill in the required fields: ${missingFields.map(field => field.label).join(', ')}`;
+          setToastMessage(toastMessage);
+          setShowWarning(true);
+          return;
+      }
 
-        // Ensure a file is selected
-        if (selectedFile) {
-            formData.append('file', selectedFile);
+      // Check if a file is selected and upload it
+      if (fileName !== "No File Chosen") {
+          const formData = new FormData();
+          const fileInput = document.getElementById('file-upload');
+          const selectedFile = fileInput.files[0];
 
-            try {
-                const uploadResponse = await axios.post(`${apiBaseUrl}/api/upload`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-                uploadedFilePath = uploadResponse.data.filePath;
-                toastMessage = "File uploaded and Form submitted successfully"; // Update message if file is uploaded
-            } catch (error) {
-                console.error('Error uploading file:', error);
-                alert('Error uploading file');
-                return; // Stop submission if the file upload fails
-            }
-        } else {
-            console.error('No file selected');
-            alert('Please select a file to upload');
-            return; // Stop submission if no file is selected
-        }
-    }
+          if (selectedFile) {
+              formData.append('file', selectedFile);
+              try {
+                  const uploadResponse = await axios.post(`${apiBaseUrl}/api/upload`, formData, {
+                      headers: {
+                          'Content-Type': 'multipart/form-data'
+                      }
+                  });
+                  uploadedFilePath = uploadResponse.data.filePath;
+                  toastMessage = "File uploaded and Form submitted successfully"; // Update message if file is uploaded
+              } catch (error) {
+                  console.error('Error uploading file:', error);
+                  alert('Error uploading file');
+                  return;
+              }
+          } else {
+              alert('Please select a file to upload');
+              return;
+          }
+      }
 
-    // Proceed with submitting form data
-    try {
-        const response = await axios.post(`${apiBaseUrl}/api/form-submit`, {
-            templateName: selectedTemplate.name,
-            formData: {
-                ...formData,
-                filePath: uploadedFilePath // Add the file path to the form data
-            }
-        });
+      // Proceed with submitting form data
+      try {
+          const response = await axios.post(`${apiBaseUrl}/api/form-submit`, {
+              templateName: selectedOrder.labTest,
+              formData: {
+                  ...formData,
+                  patientName: selectedOrder.patientName, // Include patient info
+                  labID: selectedOrder.labID,
+                  caseID: selectedOrder.caseID,
+                  filePath: uploadedFilePath
+              }
+          });
 
-        // Show the toast message
-        setToastMessage(toastMessage);
-        setShowToast(true);
+          setToastMessage(toastMessage);
+          setShowToast(true);
+          handleClosePopup();
 
-        // Clear form data and close popup after submission
-        handleClosePopup();
-
+      } catch (error) {
+          console.error('Error submitting form:', error);
+          alert('Error submitting form');
+      }
+  };
   // useEffect Hook to handle "Esc" & Mouse-click out of popup key to close the popup
   useEffect(() => {
       const handleEscKey = (event) => {
@@ -339,103 +337,120 @@ const handleSubmit = async (e) => {
   return (
       <div className="main-container">
           <h1>ScopEx Lab Reporting</h1>
-          <div className="button-container">
-              {templates.map((template, index) => (
-                  <button
-                      key={index}
-                      className="template-button"
-                      onClick={() => handleButtonClick(template)}
-                      style={{ backgroundColor: template.color }}
-                  >
-                      {template.name}
-                  </button>
-              ))}
-          </div>
 
-          {selectedTemplate && (
-              <div className={`popup-overlay ${showToast ? 'dimmed-popup' : ''}`}>
-                  <div className="popup-content">
-                      <button className="close-popup" onClick={handleClosePopup}>×</button>
-                      {/* Conditional Rendering based on the current view */}
-                      <form onSubmit={handleSubmit}>
-                          {!viewOptionalFields ? (
-                              <div>
-                                  <h2>{selectedTemplate.name} - Required Fields</h2>
-                                  <TemplateForm
-                                      template={selectedTemplate}
-                                      showOptionalFields={false}
-                                      showRequiredFields={true}
-                                      handleInputChange={handleInputChange}
-                                      formData={formData}
-                                  />
-                                  <button type="button" onClick={handleViewOptionalFields} className="optional-btn">
-                                      Add Optional Fields
-                                  </button>
-                              </div>
-                          ) : (
-                              <div>
-                                  <button type="button" className="back-btn" onClick={handleGoBack}>
-                                      ←
-                                  </button>
-                                  <h2>{selectedTemplate.name} - Optional Fields</h2>
-                                  <TemplateForm
-                                      template={selectedTemplate}
-                                      showOptionalFields={true}
-                                      showRequiredFields={false}
-                                      handleInputChange={handleInputChange}
-                                      formData={formData}
-                                  />
-                              </div>
-                          )}
-                          {/* Custom File Upload */}
-                          <div className="form-group full-width-upload">
-                              <label htmlFor="file-upload" className="upload-btn">
-                                  Select Files to Upload
-                              </label>
-                              <input
-                                  type="file"
-                                  id="file-upload"
-                                  name="file-upload"
-                                  className="file-input"
-                                  onChange={handleFileChange}
-                              />
-                              <span className="file-name">{fileName}</span>
-                          </div>
-                          {/* Submit Button */}
-                          <div className="form-actions">
-                              <button type="submit" className="submit-btn">Submit</button>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          )}
-    
-          {/* Render Toast Notification */}
+          {/* Lab Orders Section */}
+          <h2 className='order-title'>Lab Orders</h2>
+          <ul className="order-list">
+              {dummyLabOrders.map((order, index) => (
+                  <li
+                      key={index}
+                      className={`order-item ${index % 2 === 0 ? 'even' : 'odd'}`} 
+                      onClick={() => {
+                        handleOrderClick(order);
+                        handleViewRequiredFields();
+                      }}
+                  >
+                      <div><strong>Patient Name:</strong> {order.patientName}</div>
+                      <div><strong>Lab ID:</strong> {order.labID}</div>
+                      <div><strong>Case ID:</strong> {order.caseID}</div>
+                      <div><strong>Lab Test:</strong> {order.labTest}</div>
+                      <div><strong>Date Requested:</strong> {order.date}</div>
+                  </li>
+              ))}
+          </ul>
+
+          {selectedOrder && (
+                <div className="popup-overlay">
+                    <div className="popup-content">
+                        <button className="close-popup" onClick={handleClosePopup}>×</button>
+                        <h2>{selectedOrder.labTest}</h2>
+                        <div className="order-details">
+                            <p><strong>Name:</strong> {selectedOrder.patientName}</p>
+                            <p><strong>Lab ID:</strong> {selectedOrder.labID}</p>
+                            <p><strong>Case ID:</strong> {selectedOrder.caseID}</p>
+                        </div>
+                        
+                        {/* Render Required Fields */}
+                        <form onSubmit={handleSubmit}>
+                            {!viewOptionalFields ? (
+                                selectedTemplate && (
+                                <div>
+                                    <h2>Required Fields</h2>
+                                    {selectedTemplate?.requiredFields.map((field, index) => (
+                                    <div key={index} className="field-row">
+                                        <label>{field.label}</label>
+                                        <input
+                                            type={field.type}
+                                            name={field.label}
+                                            value={formData[field.label] || ''}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    </div>
+                                    ))}
+
+                                {/* Optional Fields Button */}
+                                <button type="button" onClick={handleViewOptionalFields} className="optional-btn">
+                                    Add Optional Fields
+                                </button>
+                            </div>
+                            )) : (
+                                selectedTemplate && (
+                                <div>
+                                    <h2>Optional Fields</h2>
+                                    {selectedTemplate?.optionalFields.map((field, index) => (
+                                        <div key={index} className="field-row">
+                                            <label>{field.label}</label>
+                                            <input
+                                                type={field.type}
+                                                name={field.label}
+                                                value={formData[field.label] || ''}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    ))}
+                                    <button type="button" className="back-btn" onClick={handleGoBack}>←</button>
+                                </div>
+                                )
+                            )}
+
+                            {/* File Upload */}
+                            <div className="form-group full-width-upload">
+                                <label htmlFor="file-upload" className="upload-btn">Select Files to Upload</label>
+                                <input
+                                    type="file"
+                                    id="file-upload"
+                                    name="file-upload"
+                                    className="file-input"
+                                    onChange={handleFileChange}
+                                />
+                                <span className="file-name">{fileName}</span>
+                            </div>
+                            <button type="submit" className="submit-btn">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
           {showToast && (
               <div className="dialogue-overlay">
                   <div className="dialogue-content">
                       <p>{toastMessage}</p>
-                      <button onClick={() => {
-                          setShowToast(false);
-                          handleClosePopup(); // Close the popup when OK is pressed
-                      }}>OK</button>
+                      <button onClick={() => setShowToast(false)}>OK</button>
                   </div>
               </div>
           )}
-          {/* Render Warning Notification */}
+
           {showWarning && (
               <div className="dialogue-overlay">
                   <div className="dialogue-content">
                       <p>{toastMessage}</p>
-                      <button onClick={() => {
-                          setShowWarning(false);
-                      }}>OK</button>
+                      <button onClick={() => setShowWarning(false)}>OK</button>
                   </div>
               </div>
           )}
-
       </div>
   );
 }
 
-export default MainPage;
+export default MainPage;  
