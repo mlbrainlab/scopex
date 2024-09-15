@@ -7,9 +7,45 @@ import './MainPage.css'; // Include custom styles
 // Assuming your Vercel app's base URL is stored in an environment variable
 const apiBaseUrl = process.env.REACT_APP_API_URL;
 
-const templates = [
+const dummyLabOrders = [
     {
-        name: 'Biochemistry Markers',
+        patientName: 'John Doe',
+        labID: '12345',
+        caseID: '98765',
+        labTest: 'Blood Test'
+    },
+    {
+        patientName: 'Jane Smith',
+        labID: '67890',
+        caseID: '65432',
+        labTest: 'Semen Examination'
+    },
+    {
+        patientName: 'John Doe',
+        labID: '12345',
+        caseID: '96533',
+        labTest: 'Biochemistry Markers'
+    },
+    {
+        patientName: 'Kyle Walker',
+        labID: '67890',
+        caseID: '34221',
+        labTest: 'Bone Marrow Examination'
+    },
+    {
+        patientName: 'Truffle Games',
+        labID: '12345',
+        caseID: '42355',
+        labTest: 'Culture Sensitivity'
+    },
+    {
+        patientName: 'Arnold Vinod',
+        labID: '67890',
+        caseID: '11433',
+        labTest: 'Stool Examination'
+    },
+];
+
         color: '#3498db',
         requiredFields: [
             { label: 'Name', type: 'text' },
